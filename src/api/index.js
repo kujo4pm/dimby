@@ -1,1 +1,1 @@
-export { fetchAlerts } from './alerts';
+export { fetchAlerts } from "./alerts";
