@@ -13,7 +13,7 @@ export class Map extends Component {
   state = {
     viewport: {
       width: '100%',
-      height: window.innerHeight,
+      height: 'window.innerHeight',
       latitude: -37.75407,
       longitude: 145.00123,
       zoom: 12

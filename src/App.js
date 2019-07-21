@@ -14,7 +14,8 @@ function App() {
 const styles = {
   main: {
     display: 'grid',
-    gridTemplateColumns: '25% 75%'
+    gridTemplateColumns: '25% 75%',
+    height: window.innerHeight
   }
 };
 
