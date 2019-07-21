@@ -1,14 +1,21 @@
 import React from 'react';
-import './App.css';
-import Map from './components/Map';
+import { Map } from './components/Map';
+import { Sidebar } from './components/Sidebar';
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Map />
-      </header>
+    <div style={styles.main}>
+      <Sidebar />
+      <Map />
     </div>
   );
 }
+
+const styles = {
+  main: {
+    display: 'grid',
+    gridTemplateColumns: '25% 75%'
+  }
+};
 
 export default App;
