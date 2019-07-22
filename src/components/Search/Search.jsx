@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import AsyncSelect from 'react-select/async';
 import { searchForAddresses } from '../../api';
+import { MapViewportContext } from '../Map/MapViewportContext';
 
-export class Search extends Component {
+class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,6 +31,15 @@ export class Search extends Component {
 
   handleSubmit(value) {
     this.setState({ selectedAddress: value });
+    const { lat, lon } = value;
+    let latitude = 0;
+    let longitude = 0;
+    try {
+      latitude = Number.parseFloat(lat);
+      this.props.resetViewport({ latitude, longitude });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   render() {
@@ -51,3 +61,9 @@ export class Search extends Component {
 const styles = {
   container: {}
 };
+
+export const Search = props => (
+  <MapViewportContext.Consumer>
+    {({ resetViewport }) => <SearchBar resetViewport={resetViewport} />}
+  </MapViewportContext.Consumer>
+);
