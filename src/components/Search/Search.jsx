@@ -36,6 +36,7 @@ class SearchBar extends Component {
     let longitude = 0;
     try {
       latitude = Number.parseFloat(lat);
+      longitude = Number.parseFloat(lon);
       this.props.resetViewport({ latitude, longitude });
     } catch (err) {
       console.error(err);
