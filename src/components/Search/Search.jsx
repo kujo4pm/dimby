@@ -1,53 +1,49 @@
 import React, { Component } from 'react';
+import AsyncSelect from 'react-select/async';
 import { searchForAddresses } from '../../api';
 
 export class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchText: '',
-      loading: false,
-      suggestions: []
+      selectedAddress: null
     };
-
-    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  handleChange(event) {
-    const { value } = event.target;
-    this.setState({ searchText: value, loading: true }, async () => {
-      const matches = await searchForAddresses({
-        q: this.state.searchText,
-        polygonGeojson: 0
-      });
-      const suggestions = Array.isArray(matches.data)
-        ? matches.data.map(matchData => {
-            const { place_id: placeId, display_name: displayName } = matchData;
-            return { placeId, displayName };
-          })
-        : [];
-      this.setState({ loading: false, suggestions });
+  getSuggestions = async inputText => {
+    const matches = await searchForAddresses({
+      q: inputText,
+      polygonGeojson: 0
     });
-  }
+    const suggestions = Array.isArray(matches.data)
+      ? matches.data.map(matchData => {
+          const { place_id: placeId, display_name: displayName } = matchData;
+          return {
+            ...matchData,
+            value: placeId,
+            label: displayName
+          };
+        })
+      : [];
+    return suggestions;
+  };
 
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
-    event.preventDefault();
+  handleSubmit(value) {
+    this.setState({ selectedAddress: value });
   }
 
   render() {
     return (
-      <form style={styles.container}>
+      <div>
         <label>
           Search:
-          <input
-            type="text"
-            value={this.state.searchText}
-            onChange={this.handleChange}
+          <AsyncSelect
+            placeholder="Search for address"
+            loadOptions={this.getSuggestions}
+            onChange={this.handleSubmit}
           />
         </label>
-      </form>
+      </div>
     );
   }
 }
