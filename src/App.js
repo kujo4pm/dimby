@@ -1,6 +1,9 @@
 import React from 'react';
 import { Map, MapViewportContext } from './components/Map';
-import { defaultViewport } from './components/Map/MapViewportContext';
+import {
+  defaultViewport,
+  defaultApplication
+} from './components/Map/MapViewportContext';
 import { Sidebar } from './components/Sidebar';
 
 class App extends React.Component {
@@ -14,10 +17,18 @@ class App extends React.Component {
       }));
     };
 
+    this.selectApplication = application => {
+      this.setState(state => ({
+        ...state,
+        application
+      }));
+    };
+
     // State also contains the updater function so it will
     // be passed down into the context provider
     this.state = {
-      viewport: defaultViewport
+      viewport: defaultViewport,
+      application: defaultApplication
     };
   }
 
@@ -27,6 +38,8 @@ class App extends React.Component {
       <div style={styles.main}>
         <MapViewportContext.Provider
           value={{
+            application: this.state.application,
+            selectApplication: this.selectApplication,
             viewport: this.state.viewport,
             resetViewport: this.resetViewport
           }}

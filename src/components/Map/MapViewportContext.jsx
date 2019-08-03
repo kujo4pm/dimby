@@ -7,7 +7,13 @@ export const defaultViewport = {
   longitude: 145.00123,
   zoom: 12
 };
+
+export const defaultApplication = {
+  defaultText: 'Select an application marker on the map!'
+};
+
 export const MapViewportContext = React.createContext({
   location: defaultViewport,
-  updateLocation: () => {}
+  updateLocation: () => {},
+  updateApplication: () => {}
 });

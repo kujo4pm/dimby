@@ -1,12 +1,14 @@
 import React from 'react';
 import { Marker } from 'react-map-gl';
+
 import PlanningPin from './PlanningPin';
+import { MapViewportContext } from './MapViewportContext';
+
 class MarkersGroup extends React.PureComponent {
-  constructor(props) {
-    super(props);
-  }
+  static contextType = MapViewportContext;
 
   render() {
+    console.log(this.context);
     const { markers } = this.props;
     return markers.map(marker => {
       const {
@@ -18,9 +20,12 @@ class MarkersGroup extends React.PureComponent {
         dateReceived: date_received,
         dateScraped: date_scraped
       } = marker.application;
+
       return (
         <Marker longitude={lng} latitude={lat} key={id}>
-          <PlanningPin />
+          <PlanningPin
+            onClick={() => this.context.selectApplication(marker.application)}
+          />
         </Marker>
       );
     });
