@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import { Search } from '../Search';
 import { ApplicationInfo } from '../Application';
-import { MapViewportContext } from '../Map/MapViewportContext';
 
 import { darkBackground } from '../../styles/colors';
 
@@ -22,12 +21,6 @@ export class Sidebar extends Component {
     );
   }
 }
-
-// const ApplicationInfo = props => (
-//   <MapViewportContext.Consumer>
-//     {(application) => <ApplicationInfo>{application.address}</ApplicationInfo>}
-//   </MapViewportContext.Consumer>
-// )
 
 const styles = {
   container: {
