@@ -15,7 +15,6 @@ export class Sidebar extends Component {
         <div>
           <ApplicationInfo />
         </div>
-        <div>About us</div>
         <div>Data collected by OpenAustralia</div>
       </div>
     );
