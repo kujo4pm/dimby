@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import ReactMap from 'react-map-gl';
+import equal from 'fast-deep-equal';
+import styled from 'styled-components';
+
 import { fetchAlerts } from '../../api';
 import MarkersGroup from './MarkersGroup';
 import { MapViewportContext } from './MapViewportContext';
-import equal from 'fast-deep-equal';
 
 const { REACT_APP_MAPBOX_API_TOKEN: MAPBOX_API_TOKEN } = process.env;
 
@@ -104,7 +106,7 @@ class MapPane extends Component {
         {...this.state.viewport}
         onViewportChange={this.updateViewport}
         onInteractionStateChange={this.interactionStateChange}
-        style={styles.map}
+        style={{ gridColumnStart: 2 }}
         ref={map => (this.mapRef = map)}
       >
         <MarkersGroup markers={markers} shouldUpdate={shouldFetchNewMarkers} />
@@ -112,12 +114,6 @@ class MapPane extends Component {
     );
   }
 }
-
-const styles = {
-  map: {
-    gridColumnStart: 2
-  }
-};
 
 export const Map = props => (
   <MapViewportContext.Consumer>

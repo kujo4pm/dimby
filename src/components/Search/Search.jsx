@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AsyncSelect from 'react-select/async';
+import styled from 'styled-components';
 
 import { searchForAddresses } from '../../api';
 import { MapViewportContext } from '../Map/MapViewportContext';
@@ -12,6 +13,10 @@ import {
   textOnPrimary,
   primaryLight
 } from '../../styles/colors';
+
+const Container = styled.div`
+  height: 50px;
+`;
 
 const LoadingIndicator = props => {
   const {
@@ -68,7 +73,7 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <div style={customStyles.componentContainer}>
+      <Container>
         <label>
           <AsyncSelect
             placeholder="Search for locations"
@@ -78,15 +83,12 @@ class SearchBar extends Component {
             styles={customStyles}
           />
         </label>
-      </div>
+      </Container>
     );
   }
 }
 
 const customStyles = {
-  componentContainer: {
-    height: '50px'
-  },
   control: (provided, state) => ({
     ...provided,
     background: primary,

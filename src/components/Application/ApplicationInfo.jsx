@@ -1,5 +1,108 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+
 import { MapViewportContext } from '../Map/MapViewportContext';
+import PlanningPin from '../Map/PlanningPin';
+import {
+  primary,
+  secondaryDark,
+  textOnSecondary,
+  secondary
+} from '../../styles/colors';
+
+const Container = styled.div`
+  margin: 10px;
+  padding: 5px;
+  background: ${primary};
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+const TitleField = styled.div`
+  width: 100%;
+  border-bottom: 1px solid ${secondaryDark};
+  padding-bottom: 5px;
+`;
+
+const Address = styled.span`
+  font-weight: 600;
+`;
+
+const PinIcon = styled.div`
+  height: 28px;
+  width: 28px;
+  position: relative;
+  top: 5px;
+  margin-right: 10px;
+
+  > svg {
+    height: 28px;
+    width: 28px;
+  }
+`;
+
+const Description = styled.div`
+  margin: 5px 0 5px 38px;
+`;
+
+const ExternalInfo = styled.div`
+  margin: 5px 0 0 38px;
+  padding-top: 5px;
+  border-top: 1px solid ${secondaryDark};
+
+  button {
+    margin-top: 5px;
+    z-index: 1;
+    position: relative;
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: 500;
+    color: white;
+    height: 30px;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    background-color: ${secondary};
+    overflow: hidden;
+    transition: color 0.4s ease-in-out;
+  }
+
+  button::before {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background-color: ${secondaryDark};
+    transform-origin: center;
+    transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 0);
+    transition: transform 0.45s ease-in-out;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  }
+
+  button:hover {
+    cursor: pointer;
+    color: #161616;
+  }
+
+  button:hover::before {
+    transform: translate3d(-50%, -50%, 0) scale3d(15, 15, 15);
+  }
+
+  a {
+    color: ${textOnSecondary};
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 5px;
+  }
+`;
 
 class Application extends Component {
   render() {
@@ -13,54 +116,36 @@ class Application extends Component {
     } = this.props.application;
 
     return (
-      <div style={customStyles.container}>
-        {defaultText && <h3>{defaultText}</h3>}
+      <Container>
+        <Header>
+          <PinIcon>
+            <PlanningPin />
+          </PinIcon>
+          <TitleField>
+            <Address>{address || defaultText}</Address>
+            <br />
+            {date_received}
+          </TitleField>
+        </Header>
 
-        {council_reference && (
+        {!defaultText && (
           <div>
-            <h4>Reference:</h4>
-            <p>{council_reference}</p>
+            <Description>{description}</Description>
+
+            <ExternalInfo>
+              <div>Reference: {council_reference}</div>
+              <button>
+                <a target="_blank" href={info_url}>
+                  view application
+                </a>
+              </button>
+            </ExternalInfo>
           </div>
         )}
-
-        {address && (
-          <div>
-            <h4>Address:</h4>
-            <p>{address}</p>
-          </div>
-        )}
-
-        {description && (
-          <div>
-            <h4>Application description:</h4>
-            <p>{description}</p>
-          </div>
-        )}
-
-        {date_received && (
-          <div>
-            <h4>Date received:</h4>
-            <p>{date_received}</p>
-          </div>
-        )}
-
-        {info_url && (
-          <div>
-            <h4>Info url:</h4>
-            <p>{info_url}</p>
-          </div>
-        )}
-      </div>
+      </Container>
     );
   }
 }
-
-const customStyles = {
-  container: {
-    margin: '10px',
-    display: 'flex'
-  }
-};
 
 export const ApplicationInfo = props => (
   <MapViewportContext.Consumer>

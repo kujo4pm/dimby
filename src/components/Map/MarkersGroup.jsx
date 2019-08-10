@@ -23,6 +23,7 @@ class MarkersGroup extends React.PureComponent {
       return (
         <Marker longitude={lng} latitude={lat} key={id}>
           <PlanningPin
+            transformPosition
             onClick={() => this.context.selectApplication(marker.application)}
           />
         </Marker>

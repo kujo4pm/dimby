@@ -1,10 +1,18 @@
 import React from 'react';
+import styled from 'styled-components';
+
 import { Map, MapViewportContext } from './components/Map';
 import {
   defaultViewport,
   defaultApplication
 } from './components/Map/MapViewportContext';
 import { Sidebar } from './components/Sidebar';
+
+const Main = styled.div`
+  display: grid;
+  grid-template-columns: 25% 75%;
+  height: ${window.innerHeight}px;
+`;
 
 class App extends React.Component {
   constructor(props) {
@@ -35,7 +43,7 @@ class App extends React.Component {
   render() {
     // The entire state is passed to the provider
     return (
-      <div style={styles.main}>
+      <Main>
         <MapViewportContext.Provider
           value={{
             application: this.state.application,
@@ -47,17 +55,9 @@ class App extends React.Component {
           <Sidebar />
           <Map />
         </MapViewportContext.Provider>
-      </div>
+      </Main>
     );
   }
 }
-
-const styles = {
-  main: {
-    display: 'grid',
-    gridTemplateColumns: '25% 75%',
-    height: window.innerHeight
-  }
-};
 
 export default App;
