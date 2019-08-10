@@ -3,6 +3,7 @@ import AsyncSelect from 'react-select/async';
 
 import { searchForAddresses } from '../../api';
 import { MapViewportContext } from '../Map/MapViewportContext';
+import { LoadingIcon } from '../common';
 
 import {
   secondaryLight,
@@ -11,6 +12,19 @@ import {
   textOnPrimary,
   primaryLight
 } from '../../styles/colors';
+
+const LoadingIndicator = props => {
+  const {
+    children = <LoadingIcon />,
+    innerProps: { ref, ...restInnerProps }
+  } = props;
+
+  return (
+    <div {...restInnerProps} ref={ref}>
+      {children}
+    </div>
+  );
+};
 
 class SearchBar extends Component {
   constructor(props) {
@@ -54,10 +68,11 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <div>
+      <div style={customStyles.componentContainer}>
         <label>
           <AsyncSelect
             placeholder="Search for locations"
+            components={{ LoadingIndicator }}
             loadOptions={this.getSuggestions}
             onChange={this.handleSubmit}
             styles={customStyles}
@@ -69,6 +84,9 @@ class SearchBar extends Component {
 }
 
 const customStyles = {
+  componentContainer: {
+    height: '50px'
+  },
   control: (provided, state) => ({
     ...provided,
     background: primary,
@@ -91,15 +109,23 @@ const customStyles = {
     ...provided,
     width: '50px'
   }),
-  dropdownIndicator: provided => ({
+  dropdownIndicator: (provided, state) => ({
     ...provided,
     color: textOnPrimary,
     width: '46px',
     padding: '0px',
     justifyContent: 'center',
     cursor: 'pointer',
+    visibility: state.selectProps.isLoading && 'hidden',
     '&:hover': {
       color: textOnPrimary
+    }
+  }),
+  loadingIndicator: provided => ({
+    ...provided,
+    div: {
+      color: textOnPrimary,
+      background: textOnPrimary
     }
   }),
   singleValue: provided => ({

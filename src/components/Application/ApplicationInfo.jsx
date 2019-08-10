@@ -13,7 +13,7 @@ class Application extends Component {
     } = this.props.application;
 
     return (
-      <div>
+      <div style={customStyles.container}>
         {defaultText && <h3>{defaultText}</h3>}
 
         {council_reference && (
@@ -55,8 +55,11 @@ class Application extends Component {
   }
 }
 
-const styles = {
-  container: {}
+const customStyles = {
+  container: {
+    margin: '10px',
+    display: 'flex'
+  }
 };
 
 export const ApplicationInfo = props => (

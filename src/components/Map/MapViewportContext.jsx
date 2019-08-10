@@ -9,7 +9,7 @@ export const defaultViewport = {
 };
 
 export const defaultApplication = {
-  defaultText: 'Select an application marker on the map!'
+  defaultText: 'Select a map marker to view the application'
 };
 
 export const MapViewportContext = React.createContext({

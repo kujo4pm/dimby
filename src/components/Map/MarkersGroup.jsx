@@ -8,7 +8,6 @@ class MarkersGroup extends React.PureComponent {
   static contextType = MapViewportContext;
 
   render() {
-    console.log(this.context);
     const { markers } = this.props;
     return markers.map(marker => {
       const {

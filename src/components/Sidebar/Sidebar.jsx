@@ -9,12 +9,8 @@ export class Sidebar extends Component {
   render() {
     return (
       <div style={styles.container}>
-        <div>
-          <Search />
-        </div>
-        <div>
-          <ApplicationInfo />
-        </div>
+        <Search />
+        <ApplicationInfo />
         <div>Data collected by OpenAustralia</div>
       </div>
     );
