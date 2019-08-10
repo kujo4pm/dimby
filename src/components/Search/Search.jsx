@@ -83,33 +83,40 @@ const customStyles = {
       borderBottom: `1px solid ${secondaryDark}`
     }
   }),
-  input: (provided, state) => ({
+  input: provided => ({
     ...provided,
     color: textOnPrimary
   }),
-  dropdownIndicator: (provided, state) => ({
+  indicatorsContainer: provided => ({
+    ...provided,
+    width: '50px'
+  }),
+  dropdownIndicator: provided => ({
     ...provided,
     color: textOnPrimary,
+    width: '46px',
+    padding: '0px',
+    justifyContent: 'center',
     cursor: 'pointer',
     '&:hover': {
       color: textOnPrimary
     }
   }),
-  singleValue: (provided, state) => ({
+  singleValue: provided => ({
     ...provided,
     color: textOnPrimary
   }),
-  container: (provided, state) => ({
+  container: provided => ({
     ...provided,
     border: 'none'
   }),
-  menu: (provided, state) => ({
+  menu: provided => ({
     ...provided,
     borderRadius: '0px',
     background: primary,
     marginTop: '0px'
   }),
-  menuList: (provided, state) => ({
+  menuList: provided => ({
     ...provided,
     padding: '0px'
   }),
