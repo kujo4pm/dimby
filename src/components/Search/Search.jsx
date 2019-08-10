@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import AsyncSelect from 'react-select/async';
+
 import { searchForAddresses } from '../../api';
 import { MapViewportContext } from '../Map/MapViewportContext';
+
+import {
+  secondaryLight,
+  secondaryDark,
+  primary,
+  textOnPrimary,
+  primaryLight
+} from '../../styles/colors';
 
 class SearchBar extends Component {
   constructor(props) {
@@ -47,11 +56,11 @@ class SearchBar extends Component {
     return (
       <div>
         <label>
-          Search:
           <AsyncSelect
-            placeholder="Search for address"
+            placeholder="Search for locations"
             loadOptions={this.getSuggestions}
             onChange={this.handleSubmit}
+            styles={customStyles}
           />
         </label>
       </div>
@@ -59,8 +68,58 @@ class SearchBar extends Component {
   }
 }
 
-const styles = {
-  container: {}
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    background: primary,
+    cursor: 'text',
+    height: '50px',
+    borderRadius: '0px',
+    border: 'none',
+    boxShadow: 'inset 0 0 2px #000000',
+    borderBottom: state.isFocused ? `1px solid ${secondaryDark}` : 'none',
+    '&:hover': {
+      border: 'none',
+      borderBottom: `1px solid ${secondaryDark}`
+    }
+  }),
+  input: (provided, state) => ({
+    ...provided,
+    color: textOnPrimary
+  }),
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    color: textOnPrimary,
+    cursor: 'pointer',
+    '&:hover': {
+      color: textOnPrimary
+    }
+  }),
+  singleValue: (provided, state) => ({
+    ...provided,
+    color: textOnPrimary
+  }),
+  container: (provided, state) => ({
+    ...provided,
+    border: 'none'
+  }),
+  menu: (provided, state) => ({
+    ...provided,
+    borderRadius: '0px',
+    background: primary,
+    marginTop: '0px'
+  }),
+  menuList: (provided, state) => ({
+    ...provided,
+    padding: '0px'
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    color: textOnPrimary,
+    cursor: 'pointer',
+    background: state.isFocused && primaryLight,
+    borderBottom: state.isFocused && `1px solid ${secondaryLight}`
+  })
 };
 
 export const Search = props => (
