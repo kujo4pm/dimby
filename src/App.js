@@ -40,6 +40,15 @@ class App extends React.Component {
     };
   }
 
+  componentWillMount = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords;
+        this.resetViewport({ latitude, longitude });
+      });
+    }
+  };
+
   render() {
     // The entire state is passed to the provider
     return (

@@ -50,28 +50,29 @@ class MapPane extends Component {
       ...nextViewport
     };
     const { shouldFetchNewMarkers } = this.state;
-    if (!shouldFetchNewMarkers) {
-      return this.setState({ viewport });
-    }
-    const mapBounds = this.getMapBoundaries();
-    const { _sw: bottomLeft, _ne: topRight } =
-      mapBounds || this.state.mapbounds;
-    this.setState(
-      {
-        viewport,
-        mapbounds: {
-          topRight,
-          bottomLeft
-        },
-        shouldFetchNewMarkers: false
-      },
-      () => {
-        const { topRight, bottomLeft } = this.state.mapbounds;
-        if (bottomLeft && topRight) {
-          this.updateAlerts();
-        }
+    this.setState({ viewport }, () => {
+      if (!shouldFetchNewMarkers) {
+        return;
       }
-    );
+      const mapBounds = this.getMapBoundaries();
+      const { _sw: bottomLeft, _ne: topRight } =
+        mapBounds || this.state.mapbounds;
+      this.setState(
+        {
+          mapbounds: {
+            topRight,
+            bottomLeft
+          },
+          shouldFetchNewMarkers: false
+        },
+        () => {
+          const { topRight, bottomLeft } = this.state.mapbounds;
+          if (bottomLeft && topRight) {
+            this.updateAlerts();
+          }
+        }
+      );
+    });
   };
 
   interactionStateChange = interactionState => {
@@ -85,10 +86,8 @@ class MapPane extends Component {
   };
 
   componentDidMount = () => {
-    const mapBounds = this.getMapBoundaries();
     this.setState(
       {
-        mapBounds,
         shouldFetchNewMarkers: true
       },
       () => {
