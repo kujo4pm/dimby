@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactMap from 'react-map-gl';
 import equal from 'fast-deep-equal';
-import styled from 'styled-components';
 
 import { fetchAlerts } from '../../api';
 import MarkersGroup from './MarkersGroup';
@@ -86,7 +86,15 @@ class MapPane extends Component {
 
   componentDidMount = () => {
     const mapBounds = this.getMapBoundaries();
-    this.setState({ mapBounds });
+    this.setState(
+      {
+        mapBounds,
+        shouldFetchNewMarkers: true
+      },
+      () => {
+        this.updateViewport(this.state.viewport);
+      }
+    );
   };
 
   componentDidUpdate(prevProps) {
@@ -114,6 +122,17 @@ class MapPane extends Component {
     );
   }
 }
+
+MapPane.propTypes = {
+  intialLocation: PropTypes.shape({
+    lng: PropTypes.string,
+    lat: PropTypes.string
+  })
+};
+
+MapPane.defaultProps = {
+  intialLocation: {}
+};
 
 export const Map = props => (
   <MapViewportContext.Consumer>

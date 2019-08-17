@@ -1,11 +1,19 @@
 import React from 'react';
 
-export const defaultViewport = {
-  width: '100%',
-  height: 'window.innerHeight',
-  latitude: -37.75407,
-  longitude: 145.00123,
-  zoom: 12
+export const getDefaultViewport = () => {
+  const defaultViewport = {
+    width: '100%',
+    height: 'window.innerHeight',
+    latitude: -37.75407,
+    longitude: 145.00123,
+    zoom: 12
+  };
+  if (!navigator.geolocation) return defaultViewport;
+  navigator.geolocation.getCurrentPosition(position => {
+    const { latitude, longitude } = position.coords;
+    console.log(longitude, latitude);
+  });
+  return defaultViewport;
 };
 
 export const defaultApplication = {
@@ -13,7 +21,7 @@ export const defaultApplication = {
 };
 
 export const MapViewportContext = React.createContext({
-  location: defaultViewport,
+  location: getDefaultViewport(),
   updateLocation: () => {},
   updateApplication: () => {}
 });

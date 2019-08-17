@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Marker } from 'react-map-gl';
 
 import PlanningPin from './PlanningPin';
@@ -10,15 +11,7 @@ class MarkersGroup extends React.PureComponent {
   render() {
     const { markers } = this.props;
     return markers.map(marker => {
-      const {
-        id,
-        lng,
-        lat,
-        description,
-        address,
-        dateReceived: date_received,
-        dateScraped: date_scraped
-      } = marker.application;
+      const { id, lng, lat } = marker.application;
 
       return (
         <Marker longitude={lng} latitude={lat} key={id}>
@@ -31,4 +24,15 @@ class MarkersGroup extends React.PureComponent {
     });
   }
 }
+
+MarkersGroup.propTypes = {
+  markers: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      lng: PropTypes.string.isRequired,
+      lat: PropTypes.string.isRequired
+    })
+  )
+};
+
 export default MarkersGroup;

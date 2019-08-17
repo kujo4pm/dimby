@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { Map, MapViewportContext } from './components/Map';
 import {
-  defaultViewport,
+  getDefaultViewport,
   defaultApplication
 } from './components/Map/MapViewportContext';
 import { Sidebar } from './components/Sidebar';
@@ -35,7 +35,7 @@ class App extends React.Component {
     // State also contains the updater function so it will
     // be passed down into the context provider
     this.state = {
-      viewport: defaultViewport,
+      viewport: getDefaultViewport(),
       application: defaultApplication
     };
   }
