@@ -5,6 +5,7 @@ const {
 const BASE_URL =
   'https://cors-anywhere.herokuapp.com/https://api.planningalerts.org.au/applications.js';
 const fetchAlerts = ({ bottomLeft, topRight }) => {
+  console.log(`fetching for ${(bottomLeft, topRight)} `);
   return axios({
     method: 'get',
     url: BASE_URL,

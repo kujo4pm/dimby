@@ -9,6 +9,7 @@ import {
   textOnSecondary,
   secondary
 } from '../../styles/colors';
+import { getImageUrl } from '../../api';
 
 const Container = styled.div`
   margin: 10px;
@@ -105,6 +106,39 @@ const ExternalInfo = styled.div`
 `;
 
 class Application extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      streetViewImage: null,
+      address: props.application.address || null
+    };
+    this.getImage = this.getImage.bind(this);
+  }
+
+  async getImage() {
+    const { address } = this.state;
+    if (!address) return;
+    const imageUrl = await getImageUrl({
+      address
+    });
+    this.setState({
+      streetViewImage: imageUrl
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.application.address !== this.props.application.address) {
+      this.setState(
+        {
+          address: this.props.application.address || null
+        },
+        () => {
+          this.getImage();
+        }
+      );
+    }
+  }
+
   render() {
     const {
       defaultText,
@@ -114,7 +148,7 @@ class Application extends Component {
       info_url,
       date_received
     } = this.props.application;
-
+    const { streetViewImage } = this.state;
     return (
       <Container>
         <Header>
@@ -142,6 +176,7 @@ class Application extends Component {
             </ExternalInfo>
           </div>
         )}
+        {streetViewImage && <img src={streetViewImage} />}
       </Container>
     );
   }

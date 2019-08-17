@@ -28,9 +28,9 @@ class MarkersGroup extends React.PureComponent {
 MarkersGroup.propTypes = {
   markers: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      lng: PropTypes.string.isRequired,
-      lat: PropTypes.string.isRequired
+      id: PropTypes.string,
+      lng: PropTypes.string,
+      lat: PropTypes.string
     })
   )
 };
