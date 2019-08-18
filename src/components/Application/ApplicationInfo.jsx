@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import { MapViewportContext } from '../Map/MapViewportContext';
-import PlanningPin from '../Map/PlanningPin';
-import {
-  primary,
-  secondaryDark,
-  textOnSecondary,
-  secondary
-} from '../../styles/colors';
 import { getImageUrl } from '../../api';
+import { MapViewportContext } from '../Map/MapViewportContext';
+
+import { primary, secondaryDark } from '../../styles/colors';
+import PlanningPin from '../Map/PlanningPin';
+import { ButtonLink } from '../common';
 
 const Container = styled.div`
   margin: 10px;
-  padding: 5px;
   background: ${primary};
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 `;
@@ -21,11 +17,11 @@ const Container = styled.div`
 const Header = styled.div`
   display: flex;
   justify-content: space-around;
+  padding: 5px;
 `;
 
 const TitleField = styled.div`
   width: 100%;
-  border-bottom: 1px solid ${secondaryDark};
   padding-bottom: 5px;
 `;
 
@@ -47,62 +43,17 @@ const PinIcon = styled.div`
 `;
 
 const Description = styled.div`
-  margin: 5px 0 5px 38px;
+  padding: 10px 10px 0 10px;
 `;
 
 const ExternalInfo = styled.div`
-  margin: 5px 0 0 38px;
-  padding-top: 5px;
+  margin: 10px;
+  padding-top: 10px;
   border-top: 1px solid ${secondaryDark};
+`;
 
-  button {
-    margin-top: 5px;
-    z-index: 1;
-    position: relative;
-    font-size: inherit;
-    font-family: inherit;
-    font-weight: 500;
-    color: white;
-    height: 30px;
-    outline: none;
-    border: none;
-    border-radius: 4px;
-    background-color: ${secondary};
-    overflow: hidden;
-    transition: color 0.4s ease-in-out;
-  }
-
-  button::before {
-    content: '';
-    z-index: -1;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 1em;
-    height: 1em;
-    border-radius: 50%;
-    background-color: ${secondaryDark};
-    transform-origin: center;
-    transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 0);
-    transition: transform 0.45s ease-in-out;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  }
-
-  button:hover {
-    cursor: pointer;
-    color: #161616;
-  }
-
-  button:hover::before {
-    transform: translate3d(-50%, -50%, 0) scale3d(15, 15, 15);
-  }
-
-  a {
-    color: ${textOnSecondary};
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 5px;
-  }
+const StreetViewImage = styled.div`
+  display: flex;
 `;
 
 class Application extends Component {
@@ -162,21 +113,20 @@ class Application extends Component {
           </TitleField>
         </Header>
 
+        <StreetViewImage>
+          {streetViewImage && <img src={streetViewImage} />}
+        </StreetViewImage>
+
         {!defaultText && (
           <div>
             <Description>{description}</Description>
 
             <ExternalInfo>
               <div>Reference: {council_reference}</div>
-              <button>
-                <a target="_blank" href={info_url}>
-                  view application
-                </a>
-              </button>
+              <ButtonLink url={info_url} text={'View application'} />
             </ExternalInfo>
           </div>
         )}
-        {streetViewImage && <img src={streetViewImage} />}
       </Container>
     );
   }

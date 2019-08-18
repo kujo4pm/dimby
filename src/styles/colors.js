@@ -17,3 +17,5 @@ export const textOnSecondary = '#000000';
 
 // Status
 export const error = '#ff3d00';
+
+export const link = '#1ecdff';
