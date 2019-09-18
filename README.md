@@ -4,8 +4,11 @@ DIMBY was conceived and built to empower communities with the geolocation of dat
 
 # Usage
 
-Requires 3 parameters in an `.env` file kept in root.
-A typical .env file looks like:
+- clone
+- yarn
+- create .env file
+  Requires 3 parameters in an `.env` file kept in root.
+  A typical .env file looks like:
 
 ```
 REACT_APP_MAPBOX_API_TOKEN=XXXXXXXXXX
@@ -28,6 +31,21 @@ Previously data for planning within you council area was typically tabulated and
 
 The data has been gotten from the Planning Alerts API: https://www.planningalerts.org.au. Planning Alerts are part of [OpenAustralia Foundation](https://www.oaf.org.au/) and have done all the heavy lifting for this project.
 
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
 # Support
 
 Please email: kujo4pm@gmail.com
+
+# Contributors
+
+[Kurt Johnson](https://github.com/kujo4pm/)
+[Bastien Gopfert](https://github.com/bgoepfert)
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
