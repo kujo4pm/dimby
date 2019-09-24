@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Map, MapViewportContext } from './components/Map';
+import { Map, MapViewportContext, LoadingMap } from './components/Map';
 import {
   getDefaultViewport,
   defaultApplication
@@ -63,6 +63,7 @@ class App extends React.Component {
         >
           <Sidebar />
           <Map />
+          <LoadingMap />
         </MapViewportContext.Provider>
       </Main>
     );
