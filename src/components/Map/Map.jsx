@@ -5,9 +5,12 @@ import equal from 'fast-deep-equal';
 
 import { fetchAlerts } from '../../api';
 import MarkersGroup from './MarkersGroup';
+import { LoadingMap } from '.';
 import { MapViewportContext } from './MapViewportContext';
 
 const { REACT_APP_MAPBOX_API_TOKEN: MAPBOX_API_TOKEN } = process.env;
+const MIN_ZOOM = 12;
+const noop = () => {};
 
 class MapPane extends Component {
   constructor(props) {
@@ -26,8 +29,8 @@ class MapPane extends Component {
         address: null
       },
       markers: [],
-      shouldFetchNewMarkers: false,
-      wasDragging: false
+      wasInteracting: false,
+      loading: false
     };
   }
 
@@ -40,20 +43,30 @@ class MapPane extends Component {
   };
 
   updateAlerts = async () => {
+    LoadingMap.show();
     const { data } = await fetchAlerts(this.state.mapbounds);
-    this.setState({ markers: data });
+    LoadingMap.hide();
+    this.setState({
+      markers: data
+    });
   };
 
-  updateViewport = nextViewport => {
+  /* 
+    params interactionState & oldViewState needed for compatibility 
+    with onViewportChange.
+    see: https://uber.github.io/react-map-gl/#/Documentation/api-reference/interactive-map?section=callbacks
+  */
+  updateViewport = (
+    nextViewport,
+    interactionState,
+    oldViewState,
+    onComplete = noop
+  ) => {
     const viewport = {
       ...this.state.viewport,
       ...nextViewport
     };
-    const { shouldFetchNewMarkers } = this.state;
     this.setState({ viewport }, () => {
-      if (!shouldFetchNewMarkers) {
-        return;
-      }
       const mapBounds = this.getMapBoundaries();
       const { _sw: bottomLeft, _ne: topRight } =
         mapBounds || this.state.mapbounds;
@@ -62,50 +75,39 @@ class MapPane extends Component {
           mapbounds: {
             topRight,
             bottomLeft
-          },
-          shouldFetchNewMarkers: false
-        },
-        () => {
-          const { topRight, bottomLeft } = this.state.mapbounds;
-          if (bottomLeft && topRight) {
-            this.updateAlerts();
           }
-        }
+        },
+        () => onComplete()
       );
     });
   };
 
   interactionStateChange = interactionState => {
-    const { isDragging } = interactionState;
-    const newState = { wasDragging: isDragging };
-    const { wasDragging } = this.state;
-    if (!isDragging && wasDragging) {
-      newState.shouldFetchNewMarkers = true;
+    // here we are trying to capture the idea that the user WAS interacting
+    // with the map (no matter HOW) but then stopped - so fetch alerts
+    const { isDragging, isPanning, isRotating, isZooming } = interactionState;
+    const isInteracting = isDragging || isPanning || isRotating || isZooming;
+    const { wasInteracting } = this.state;
+    if (wasInteracting && !isInteracting) {
+      this.updateAlerts();
     }
+    const newState = {
+      wasInteracting: isInteracting
+    };
     this.setState(newState);
   };
 
   componentDidMount = () => {
-    this.setState(
-      {
-        shouldFetchNewMarkers: true
-      },
-      () => {
-        this.updateViewport(this.state.viewport);
-      }
-    );
+    this.updateViewport(this.state.viewport);
   };
 
   componentDidUpdate(prevProps) {
     if (!equal(this.props.intialLocation, prevProps.intialLocation)) {
-      this.setState({ shouldFetchNewMarkers: true }, () => {
-        this.updateViewport(this.props.intialLocation);
-      });
+      this.updateViewport(this.props.intialLocation, {}, {}, this.updateAlerts);
     }
   }
-
   render() {
-    const { markers, shouldFetchNewMarkers } = this.state;
+    const { markers } = this.state;
     return (
       <ReactMap
         mapboxApiAccessToken={MAPBOX_API_TOKEN}
@@ -114,9 +116,10 @@ class MapPane extends Component {
         onViewportChange={this.updateViewport}
         onInteractionStateChange={this.interactionStateChange}
         style={{ gridColumnStart: 2 }}
+        minZoom={MIN_ZOOM}
         ref={map => (this.mapRef = map)}
       >
-        <MarkersGroup markers={markers} shouldUpdate={shouldFetchNewMarkers} />
+        <MarkersGroup markers={markers} />
       </ReactMap>
     );
   }
@@ -124,8 +127,8 @@ class MapPane extends Component {
 
 MapPane.propTypes = {
   intialLocation: PropTypes.shape({
-    lng: PropTypes.string,
-    lat: PropTypes.string
+    longitude: PropTypes.number,
+    latitude: PropTypes.number
   })
 };
 

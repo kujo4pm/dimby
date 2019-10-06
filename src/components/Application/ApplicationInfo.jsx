@@ -114,7 +114,9 @@ class Application extends Component {
         </Header>
 
         <StreetViewImage>
-          {streetViewImage && <img src={streetViewImage} />}
+          {streetViewImage && (
+            <img src={streetViewImage} alt="Google Street View" width="100%" />
+          )}
         </StreetViewImage>
 
         {!defaultText && (
