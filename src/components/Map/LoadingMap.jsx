@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+
+import { LoadingIcon } from '../common';
 /* 
   using a singleton Modal pattern to dodge 
   annoying state control through many component levels 
@@ -15,12 +17,10 @@ const Container = styled.div`
 
 const Message = styled.div`
   position: fixed;
-  background: white;
-  width: 150px;
   padding: 10px;
   height: auto;
   top: 50%;
-  left: 50%;
+  left: 62%;
   transform: translate(-50%, -50%);
 `;
 
@@ -46,7 +46,9 @@ export class LoadingMap extends React.Component {
     if (visible) {
       return (
         <Container>
-          <Message>Loading...</Message>
+          <Message>
+            <LoadingIcon sizeMultiplyer={2} />
+          </Message>
         </Container>
       );
     }

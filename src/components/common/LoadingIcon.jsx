@@ -6,11 +6,12 @@ const LoadingIconComponent = styled.div`
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
-  width: 2em;
+  width: ${props => `${2 * props.size}em`};
+  z-index: 999;
 
   span {
-    width: 0.3em;
-    height: 1em;
+    width: ${props => `${0.3 * props.size}em`};
+    height: ${props => `${1 * props.size}em`};
     background-color: #3cefff;
   }
 
@@ -41,9 +42,9 @@ const LoadingIconComponent = styled.div`
   }
 `;
 
-export const LoadingIcon = () => {
+export const LoadingIcon = ({ sizeMultiplyer = 1 }) => {
   return (
-    <LoadingIconComponent>
+    <LoadingIconComponent size={sizeMultiplyer}>
       <span></span>
       <span></span>
       <span></span>
