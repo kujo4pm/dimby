@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { secondary } from '../../styles/colors';
 
 const LoadingIconComponent = styled.div`
   display: flex;
@@ -12,7 +13,7 @@ const LoadingIconComponent = styled.div`
   span {
     width: ${props => `${0.3 * props.size}em`};
     height: ${props => `${1 * props.size}em`};
-    background-color: #3cefff;
+    background-color: ${secondary};
   }
 
   span:nth-of-type(1) {

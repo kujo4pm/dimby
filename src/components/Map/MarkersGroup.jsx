@@ -12,11 +12,13 @@ class MarkersGroup extends React.PureComponent {
     const { markers } = this.props;
     return markers.map(marker => {
       const { id, lng, lat } = marker.application;
+      const isSelected = this.context.application.id === marker.application.id;
 
       return (
         <Marker longitude={lng} latitude={lat} key={id}>
           <PlanningPin
             transformPosition
+            isSelected={isSelected}
             onClick={() => this.context.selectApplication(marker.application)}
           />
         </Marker>

@@ -37,8 +37,8 @@ class SearchBar extends Component {
     this.state = {
       selectedAddress: null
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   getSuggestions = async inputText => {
     const matches = await searchForAddresses({
       q: inputText,
@@ -57,7 +57,7 @@ class SearchBar extends Component {
     return suggestions;
   };
 
-  handleSubmit(value) {
+  handleSubmit = value => {
     this.setState({ selectedAddress: value });
     const { lat, lon } = value;
     let latitude = 0;
@@ -69,17 +69,22 @@ class SearchBar extends Component {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   render() {
+    const { updateSearchStatus } = this.props;
+
     return (
       <Container>
         <label>
           <AsyncSelect
+            ref={this.searchRef}
             placeholder="Search for locations"
             components={{ LoadingIndicator }}
             loadOptions={this.getSuggestions}
             onChange={this.handleSubmit}
+            onMenuOpen={() => updateSearchStatus(true)}
+            onMenuClose={() => updateSearchStatus(false)}
             styles={customStyles}
           />
         </label>
@@ -109,7 +114,8 @@ const customStyles = {
   }),
   indicatorsContainer: provided => ({
     ...provided,
-    width: '50px'
+    width: '50px',
+    marginLeft: 10
   }),
   dropdownIndicator: (provided, state) => ({
     ...provided,
@@ -159,6 +165,11 @@ const customStyles = {
 
 export const Search = props => (
   <MapViewportContext.Consumer>
-    {({ resetViewport }) => <SearchBar resetViewport={resetViewport} />}
+    {({ resetViewport, updateSearchStatus }) => (
+      <SearchBar
+        updateSearchStatus={updateSearchStatus}
+        resetViewport={resetViewport}
+      />
+    )}
   </MapViewportContext.Consumer>
 );

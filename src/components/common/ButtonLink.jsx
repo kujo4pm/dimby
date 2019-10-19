@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { textOnSecondary, secondary, link } from '../../styles/colors';
+import { textOnSecondary, secondaryDark, link } from '../../styles/colors';
 
 const Button = styled.button`
   margin-top: 5px;
@@ -28,7 +28,7 @@ const Button = styled.button`
     width: 1em;
     height: 1em;
     border-radius: 50%;
-    background-color: ${secondary};
+    background-color: ${secondaryDark};
     transform-origin: center;
     transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 0);
     transition: transform 0.45s ease-in-out;

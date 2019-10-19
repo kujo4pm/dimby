@@ -10,19 +10,19 @@ import { ButtonLink } from '../common';
 
 const Container = styled.div`
   margin: 10px;
+  padding-bottom: 10px;
   background: ${primary};
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 `;
 
 const Header = styled.div`
   display: flex;
-  justify-content: space-around;
   padding: 5px;
 `;
 
 const TitleField = styled.div`
   width: 100%;
-  padding-bottom: 5px;
+  align-self: flex-end;
 `;
 
 const Address = styled.span`
@@ -100,11 +100,12 @@ class Application extends Component {
       date_received
     } = this.props.application;
     const { streetViewImage } = this.state;
+
     return (
       <Container>
         <Header>
           <PinIcon>
-            <PlanningPin />
+            <PlanningPin isSelected={!!address} />
           </PinIcon>
           <TitleField>
             <Address>{address || defaultText}</Address>
@@ -136,6 +137,8 @@ class Application extends Component {
 
 export const ApplicationInfo = props => (
   <MapViewportContext.Consumer>
-    {({ application }) => <Application application={application} />}
+    {({ application, isSearchOpen }) => (
+      <Application isSearchOpen={isSearchOpen} application={application} />
+    )}
   </MapViewportContext.Consumer>
 );

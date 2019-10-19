@@ -98,7 +98,7 @@ class MapPane extends Component {
   };
 
   componentDidMount = () => {
-    this.updateViewport(this.state.viewport);
+    this.updateViewport(this.props.intialLocation, {}, {}, this.updateAlerts);
   };
 
   componentDidUpdate(prevProps) {

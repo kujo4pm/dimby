@@ -4,7 +4,7 @@ const getImageUrl = fetchObj => {
   const { address } = fetchObj;
   console.log('fetching image for:', address);
   return encodeURI(
-    `${BASE_URL}?location=${address}&size=400x200&key=${OPEN_STREET_VIEW_KEY}`
+    `${BASE_URL}?location=${address}&size=400x150&key=${OPEN_STREET_VIEW_KEY}`
   );
 };
 

@@ -10,7 +10,7 @@ import { Sidebar } from './components/Sidebar';
 
 const Main = styled.div`
   display: grid;
-  grid-template-columns: 25% 75%;
+  grid-template-columns: 30% 70%;
   height: ${window.innerHeight}px;
 `;
 
@@ -36,7 +36,8 @@ class App extends React.Component {
     // be passed down into the context provider
     this.state = {
       viewport: getDefaultViewport(),
-      application: defaultApplication
+      application: defaultApplication,
+      isSearchOpen: false
     };
   }
 
@@ -49,6 +50,10 @@ class App extends React.Component {
     }
   };
 
+  updateSearchStatus = status => {
+    this.setState({ isSearchOpen: status });
+  };
+
   render() {
     // The entire state is passed to the provider
     return (
@@ -58,7 +63,9 @@ class App extends React.Component {
             application: this.state.application,
             selectApplication: this.selectApplication,
             viewport: this.state.viewport,
-            resetViewport: this.resetViewport
+            resetViewport: this.resetViewport,
+            updateSearchStatus: this.updateSearchStatus,
+            isSearchOpen: this.state.isSearchOpen
           }}
         >
           <Sidebar />

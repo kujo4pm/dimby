@@ -10,12 +10,12 @@ export const primaryDark = '#000051';
 export const textOnPrimary = '#FFFFFF';
 
 // Secondary
-export const secondary = '#42ffdc';
-export const secondaryLight = '#85ffff';
-export const secondaryDark = '#00cbaa';
+export const secondary = '#3cefff';
+export const secondaryLight = '#b3f9ff';
+export const secondaryDark = '#29cad9';
 export const textOnSecondary = '#000000';
 
 // Status
 export const error = '#ff3d00';
 
-export const link = '#1ecdff';
+export const link = '#3cefff';
