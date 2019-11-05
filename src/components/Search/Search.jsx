@@ -44,6 +44,7 @@ class SearchBar extends Component {
       q: inputText,
       polygonGeojson: 0
     });
+    console.log(matches);
     const suggestions = Array.isArray(matches.data)
       ? matches.data.map(matchData => {
           const { place_id: placeId, display_name: displayName } = matchData;

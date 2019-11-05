@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import { getImageUrl } from '../../api';
+import { getImage } from '../../api';
 import { MapViewportContext } from '../Map/MapViewportContext';
 
 import { primary, secondaryDark } from '../../styles/colors';
@@ -69,7 +69,7 @@ class Application extends Component {
   async getImage() {
     const { address } = this.state;
     if (!address) return;
-    const imageUrl = await getImageUrl({
+    const imageUrl = await getImage({
       address
     });
     this.setState({
