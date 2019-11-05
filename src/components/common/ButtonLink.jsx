@@ -55,7 +55,7 @@ const Button = styled.button`
 export const ButtonLink = ({ url, text }) => {
   return (
     <Button>
-      <a target="_blank" href={url}>
+      <a target="_blank" rel="noopener noreferrer" href={url}>
         {text}
       </a>
     </Button>
