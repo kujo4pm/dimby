@@ -23,6 +23,7 @@ class MapPane extends Component {
         bottomLeft: null,
         topRight: null
       },
+      isZoomingIn: false,
       popupInfo: {
         closed: true,
         description: null,
@@ -75,7 +76,8 @@ class MapPane extends Component {
       ...this.state.viewport,
       ...nextViewport
     };
-    this.setState({ viewport }, () => {
+    const isZoomingIn = nextViewport.zoom > this.state.viewport.zoom;
+    this.setState({ viewport, isZoomingIn }, () => {
       const mapBounds = this.getMapBoundaries();
       const { _sw: bottomLeft, _ne: topRight } =
         mapBounds || this.state.mapbounds;
@@ -96,8 +98,8 @@ class MapPane extends Component {
     // with the map (no matter HOW) but then stopped - so fetch alerts
     const { isDragging, isPanning, isRotating, isZooming } = interactionState;
     const isInteracting = isDragging || isPanning || isRotating || isZooming;
-    const { wasInteracting } = this.state;
-    if (wasInteracting && !isInteracting) {
+    const { wasInteracting, isZoomingIn } = this.state;
+    if (wasInteracting && !isInteracting && !isZoomingIn) {
       this.updateAlerts();
     }
     const newState = {
