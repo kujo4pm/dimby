@@ -37,4 +37,8 @@ MarkersGroup.propTypes = {
   )
 };
 
+MarkersGroup.defaultProps = {
+  markers: []
+};
+
 export default MarkersGroup;

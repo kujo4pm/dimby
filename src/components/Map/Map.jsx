@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactMap from 'react-map-gl';
 import equal from 'fast-deep-equal';
 
-import { fetchAlerts } from '../../api';
+import { fetchAlerts, getSignature } from '../../api';
 import MarkersGroup from './MarkersGroup';
 import { LoadingMap } from '.';
 import { MapViewportContext } from './MapViewportContext';
@@ -44,11 +44,20 @@ class MapPane extends Component {
 
   updateAlerts = async () => {
     LoadingMap.show();
-    const { data } = await fetchAlerts(this.state.mapbounds);
-    LoadingMap.hide();
-    this.setState({
-      markers: data
-    });
+    this.setState(
+      {
+        latestAlertFetch: getSignature(this.state.mapbounds)
+      },
+      async () => {
+        const response = await fetchAlerts(this.state.mapbounds);
+        if (this.state.latestAlertFetch !== response.signature) return;
+        const { data } = response;
+        LoadingMap.hide();
+        this.setState({
+          markers: data
+        });
+      }
+    );
   };
 
   /* 
