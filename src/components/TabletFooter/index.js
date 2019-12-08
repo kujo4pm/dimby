@@ -1,0 +1,1 @@
+export { TabletFooter } from './TabletFooter';

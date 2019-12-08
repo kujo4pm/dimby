@@ -126,7 +126,6 @@ class MapPane extends Component {
         {...this.state.viewport}
         onViewportChange={this.updateViewport}
         onInteractionStateChange={this.interactionStateChange}
-        style={{ gridColumnStart: 2 }}
         minZoom={MIN_ZOOM}
         ref={map => (this.mapRef = map)}
       >
