@@ -20,7 +20,7 @@ const Message = styled.div`
   padding: 10px;
   height: auto;
   top: 50%;
-  left: 62%;
+  left: ${({ center }) => (center ? '50%' : '62%')};
   transform: translate(-50%, -50%);
 `;
 
@@ -46,7 +46,7 @@ export class LoadingMap extends React.Component {
     if (visible) {
       return (
         <Container>
-          <Message>
+          <Message center={this.props.center}>
             <LoadingIcon sizeMultiplyer={2} />
           </Message>
         </Container>
