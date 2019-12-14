@@ -51,11 +51,10 @@ class MapPane extends Component {
         latestAlertFetch: getSignature(this.state.mapbounds)
       },
       async () => {
-        console.log(this.props.dateRange);
         const response = await fetchAlerts(this.state.mapbounds);
         if (this.state.latestAlertFetch !== response.signature) return;
         const { data } = response;
-        console.log(data);
+
         if (!this.props.dateRange) {
           this.setState({
             markers: data
