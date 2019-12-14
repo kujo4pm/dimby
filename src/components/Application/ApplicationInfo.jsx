@@ -97,8 +97,7 @@ class Application extends Component {
       address,
       description,
       info_url,
-      date_received,
-      showImage
+      date_received
     } = this.props.application;
     const { streetViewImage } = this.state;
 
@@ -115,7 +114,7 @@ class Application extends Component {
           </TitleField>
         </Header>
 
-        {showImage && (
+        {this.props.showImage && (
           <StreetViewImage>
             {streetViewImage && (
               <img
@@ -144,9 +143,9 @@ class Application extends Component {
 
 export const ApplicationInfo = props => (
   <MapViewportContext.Consumer>
-    {({ application, isSearchOpen, showImage = true }) => (
+    {({ application, isSearchOpen }) => (
       <Application
-        showImage={showImage}
+        showImage={props.showImage}
         isSearchOpen={isSearchOpen}
         application={application}
       />
