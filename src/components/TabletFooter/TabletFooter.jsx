@@ -13,11 +13,6 @@ const Container = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
-  /* display: grid; */
-  /* grid-auto-flow: row; */
-  /* grid-template-rows: ${({ isSearchOpen }) =>
-    isSearchOpen ? '50px auto' : ' 50px auto 30px'}; */
-  /* align-content: space-between; */
 `;
 
 export const TabletFooter = () => (

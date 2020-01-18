@@ -14,12 +14,16 @@ const Container = styled.div`
   display: grid;
   grid-auto-flow: row;
   grid-template-rows: ${({ isSearchOpen }) =>
-    isSearchOpen ? '50px auto' : ' 50px auto 30px'};
+    isSearchOpen ? '1fr auto 30px' : ' 50px auto 30px'};
   align-content: space-between;
 `;
 
 const Footer = styled.div`
   text-align: center;
+
+  a {
+    color: #fff;
+  }
 `;
 
 export const Sidebar = () => (
@@ -27,8 +31,19 @@ export const Sidebar = () => (
     {({ isSearchOpen }) => (
       <Container isSearchOpen={isSearchOpen}>
         <Search />
-        <ApplicationInfo isSearchOpen={isSearchOpen} />
-        {!isSearchOpen && <Footer>Data collected by OpenAustralia</Footer>}
+        <ApplicationInfo showImage isSearchOpen={isSearchOpen} />
+        {
+          <Footer>
+            Data collected by{' '}
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://www.planningalerts.org.au/"
+            >
+              PlanningAlerts
+            </a>
+          </Footer>
+        }
       </Container>
     )}
   </MapViewportContext.Consumer>

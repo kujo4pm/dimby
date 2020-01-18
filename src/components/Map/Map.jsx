@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactMap from 'react-map-gl';
 import equal from 'fast-deep-equal';
+import moment from 'moment';
 
 import { fetchAlerts, getSignature } from '../../api';
 import MarkersGroup from './MarkersGroup';
@@ -53,10 +54,24 @@ class MapPane extends Component {
         const response = await fetchAlerts(this.state.mapbounds);
         if (this.state.latestAlertFetch !== response.signature) return;
         const { data } = response;
+
+        if (!this.props.dateRange) {
+          this.setState({
+            markers: data
+          });
+        } else {
+          const filteredData = data.filter(({ application }) => {
+            return moment(application.date_received).isBetween(
+              this.props.dateRange[0],
+              this.props.dateRange[1]
+            );
+          });
+          this.setState({
+            markers: filteredData
+          });
+        }
+
         LoadingMap.hide();
-        this.setState({
-          markers: data
-        });
       }
     );
   };
@@ -116,6 +131,10 @@ class MapPane extends Component {
     if (!equal(this.props.intialLocation, prevProps.intialLocation)) {
       this.updateViewport(this.props.intialLocation, {}, {}, this.updateAlerts);
     }
+
+    if (prevProps.dateRange !== this.props.dateRange) {
+      this.updateAlerts();
+    }
   }
   render() {
     const { markers } = this.state;
@@ -148,6 +167,11 @@ MapPane.defaultProps = {
 
 export const Map = props => (
   <MapViewportContext.Consumer>
-    {({ viewport }) => <MapPane intialLocation={viewport} />}
+    {({ viewport, applicationFilters }) => (
+      <MapPane
+        dateRange={applicationFilters.dateRange}
+        intialLocation={viewport}
+      />
+    )}
   </MapViewportContext.Consumer>
 );
