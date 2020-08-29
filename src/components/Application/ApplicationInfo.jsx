@@ -92,6 +92,7 @@ class Application extends Component {
 
   render() {
     const {
+      id,
       defaultText,
       council_reference,
       address,
@@ -133,6 +134,10 @@ class Application extends Component {
             <ExternalInfo>
               <div>Reference: {council_reference}</div>
               <ButtonLink url={info_url} text={'View application'} />
+              <ButtonLink
+                url={`https://www.planningalerts.org.au/applications/${id}`}
+                text={'Discuss Application'}
+              />
             </ExternalInfo>
           </div>
         )}
