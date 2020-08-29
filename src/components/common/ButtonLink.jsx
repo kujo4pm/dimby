@@ -18,6 +18,7 @@ const Button = styled.button`
   background-color: ${link};
   overflow: hidden;
   transition: color 0.4s ease-in-out;
+  width: 100%;
 
   &::before {
     content: '';
